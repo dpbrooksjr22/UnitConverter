@@ -1,0 +1,22 @@
+﻿@page
+@model UnitConverter.Pages.ConversionsModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <h1> @ViewData["ConversionType"] </h1>
+</head>
+<body>
+<div>
+
+    <p>Input: @Model.Input</p>
+    <p>Output: @Model.Output</p>
+
+</div>
+</body>
+</html>
