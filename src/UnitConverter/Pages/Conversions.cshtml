@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{conversionType?}/{input?}"
 @model UnitConverter.Pages.ConversionsModel
 
 @{
@@ -9,14 +9,23 @@
 
 <html>
 <head>
-    <h1> @ViewData["ConversionType"] </h1>
+
 </head>
-<body>
-<div>
+    <body>
 
-    <p>Input: @Model.Input</p>
-    <p>Output: @Model.Output</p>
+        @if (ViewData["ErrorMessage"] != null)
+            {
+                <p class="text-danger">@ViewData["ErrorMessage"]</p>
+            }
+        else
+            {
+                <h1>@ViewData["ConversionType"]</h1>
 
-</div>
-</body>
+                <p>Conversion Type: @Model.ConversionType</p>
+                <p>Input: @Model.Input</p>
+                <p>Output: @Model.Output</p>
+            }
+
+    </body>
 </html>
+
