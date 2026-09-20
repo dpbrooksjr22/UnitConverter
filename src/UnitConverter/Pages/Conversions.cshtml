@@ -21,10 +21,13 @@
             {
                 <h1>@ViewData["ConversionType"]</h1>
 
-                <p>Conversion Type: @Model.ConversionType</p>
-                <p>Input: @Model.Input</p>
-                <p>Output: @Model.Output</p>
+                <p>Conversion Type: @Model.Conversion.ConversionType</p>
+                <p>Input: @Model.Conversion.Input</p>
+                <p>Output: @Model.Conversion.Output</p>
+
             }
+
+        <a href="/">Return to the conversion form</a>
 
     </body>
 </html>

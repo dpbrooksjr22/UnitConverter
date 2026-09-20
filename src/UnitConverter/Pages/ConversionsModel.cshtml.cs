@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using UnitConverter.Models;
 
 namespace UnitConverter.Pages;
 
@@ -7,17 +8,17 @@ public class ConversionsModel : PageModel
 {
     public void OnGet()
     {
-        if (string.IsNullOrWhiteSpace(Input))
+        if (string.IsNullOrWhiteSpace(Conversion.Input))
         {
-            Input = "3.1415";
+            Conversion.Input = "3.1415";
         }
 
-        if (string.IsNullOrWhiteSpace(ConversionType))
+        if (string.IsNullOrWhiteSpace(Conversion.ConversionType))
         {
-            ConversionType = "MilesToKilometers";
+            Conversion.ConversionType = "MilesToKilometers";
         }
 
-        ViewData["ConversionType"] = ConversionType switch
+        ViewData["ConversionType"] = Conversion.ConversionType switch
         {
             "MilesToKilometers" => "Miles to Kilometers",
             "KilometersToMiles" => "Kilometers to Miles",
@@ -27,7 +28,7 @@ public class ConversionsModel : PageModel
             "KilogramsToPounds" => "Kilograms to Pounds",
             "FeetToMeters" => "Feet to Meters",
             "MetersToFeet" => "Meters to Feet",
-            _ => ConversionType
+            _ => Conversion.ConversionType
         };
 
         ViewData["Title"] = "Conversions";
@@ -36,7 +37,7 @@ public class ConversionsModel : PageModel
 
         try
         {
-            conversion = Convert.ToDouble(Input);
+            conversion = Convert.ToDouble(Conversion.Input);
         }
         catch (FormatException)
         {
@@ -49,7 +50,7 @@ public class ConversionsModel : PageModel
             return;
         }
 
-        double? unit = ConversionType switch
+        double? unit = Conversion.ConversionType switch
         {
             "MilesToKilometers" => new UnitOf.Length().FromMiles(conversion).ToKilometers(),
             "KilometersToMiles" => new UnitOf.Length().FromKilometers(conversion).ToMiles(),
@@ -68,14 +69,29 @@ public class ConversionsModel : PageModel
             return;
         }
 
-        Output = unit.Value.ToString();
+        Conversion.Output = unit.Value.ToString();
     }
 
     [BindProperty(SupportsGet = true)]
-    public string ConversionType { get; set; } = string.Empty;
+    public ConversionModel Conversion { get; set; } = new();
 
     [BindProperty(SupportsGet = true)]
-    public string Input { get; set; } = string.Empty;
+    public string ConversionType
+    {
+        get => Conversion.ConversionType;
+        set => Conversion.ConversionType = value;
+    }
 
-    public string Output { get; set; } = string.Empty;
+    [BindProperty(SupportsGet = true)]
+    public string Input
+    {
+        get => Conversion.Input;
+        set => Conversion.Input = value;
+    }
+
+    public string Output
+    {
+        get => Conversion.Output;
+        set => Conversion.Output = value;
+    }
 }
