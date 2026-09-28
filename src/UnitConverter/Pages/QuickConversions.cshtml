@@ -1,0 +1,165 @@
+﻿@page
+@model UnitConverter.Pages.QuickConversions
+
+<h1>Quick Conversions</h1>
+
+<p>
+    <a asp-page="/Index">Back to Home</a>
+</p>
+
+<hr />
+
+<h2>Miles to Kilometers</h2>
+
+<form method="get" asp-page-handler="@ConversionTypes.MilesToKilometers">
+    <div class="mb-3">
+        <input type="hidden" name="handler" value="@ConversionTypes.MilesToKilometers" />
+        <label for="miles" class="form-label">Miles</label>
+        <input id="miles"
+               name="input"
+               type="text"
+               class="form-control"/>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Convert</button>
+</form>
+
+<hr />
+
+<h2>Kilometers to Miles</h2>
+
+<form method="get" asp-page-handler="@ConversionTypes.KilometersToMiles">
+    <div class="mb-3">
+        <input type="hidden" name="handler" value="@ConversionTypes.KilometersToMiles" />
+        <label for="kilometers" class="form-label">Kilometers</label>
+        <input id="kilometers"
+               name="input"
+               type="number"
+               step="any"
+               class="form-control"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Convert</button>
+</form>
+
+<hr />
+
+<h2>Fahrenheit to Celsius</h2>
+
+<form method="get" asp-page-handler="@ConversionTypes.FahrenheitToCelsius">
+    <div class="mb-3">
+        <input type="hidden" name="handler" value="@ConversionTypes.FahrenheitToCelsius" />
+        <label for="fahrenheit" class="form-label">Fahrenheit</label>
+        <textarea id="fahrenheit"
+                  name="input"
+                  class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Convert</button>
+</form>
+
+<hr />
+
+<h2>Celsius to Fahrenheit</h2>
+
+<form method="get" asp-page-handler="@ConversionTypes.CelsiusToFahrenheit">
+    <div class="mb-3">
+        <input type="hidden" name="handler" value="@ConversionTypes.CelsiusToFahrenheit" />
+        <label for="celsius" class="form-label">
+            Celsius (-100 to 100)
+        </label>
+
+        <input id="celsius"
+               name="input"
+               type="range"
+               min="-100"
+               max="100"
+               value="0"
+               class="form-range"
+               oninput="celsiusOutput.value = this.value" />
+    </div>
+
+    <p>
+        Selected value:
+        <output id="celsiusOutput">0</output>
+    </p>
+
+    <button type="submit" class="btn btn-primary">Convert</button>
+</form>
+
+<hr />
+
+<h2>Pounds to Kilograms</h2>
+
+<form method="get" asp-page-handler="@ConversionTypes.PoundsToKilograms">
+    <div class="mb-3">
+        <input type="hidden" name="handler" value="@ConversionTypes.PoundsToKilograms" />
+        <label for="pounds" class="form-label">Pounds</label>
+
+        <select id="pounds"
+                name="input"
+                asp-items="Model.PoundOptions"
+                class="form-select">
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Convert</button>
+</form>
+
+<hr />
+
+<h2>Kilograms to Pounds</h2>
+
+<form method="get" asp-page-handler="@ConversionTypes.KilogramsToPounds">
+    <div class="mb-3">
+        <input type="hidden" name="handler" value="@ConversionTypes.KilogramsToPounds" />
+        <label for="kilograms" class="form-label">Kilograms</label>
+
+        <input id="kilograms"
+               name="input"
+               type="number"
+               step="any"
+               class="form-control"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Convert</button>
+</form>
+
+<hr />
+
+<h2>Feet to Meters</h2>
+
+<form method="get" asp-page-handler="@ConversionTypes.FeetToMeters">
+    <div class="mb-3">
+        <input type="hidden" name="handler" value="@ConversionTypes.FeetToMeters" />
+        <label for="feet" class="form-label">Feet</label>
+
+        <input id="feet"
+               name="input"
+               type="number"
+               step="any"
+               class="form-control"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Convert</button>
+</form>
+
+<hr />
+
+<h2>Meters to Feet</h2>
+
+<form method="get" asp-page-handler="@ConversionTypes.MetersToFeet">
+    <div class="mb-3">
+        <input type="hidden" name="handler" value="@ConversionTypes.MetersToFeet" />
+        <label for="meters" class="form-label">Meters</label>
+
+        <input id="meters"
+               name="input"
+               type="number"
+               step="any"
+               class="form-control"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Convert</button>
+</form>
