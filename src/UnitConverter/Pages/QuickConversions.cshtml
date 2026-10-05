@@ -9,6 +9,21 @@
 
 <hr />
 
+@if (ViewData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <p>Error:</p>
+        @ViewData["ErrorMessage"]
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(Model.Output.ToString()))
+{
+    <div class="alert alert-success" role="alert">
+        Result: @Model.Output
+    </div>
+}
+
 <h2>Miles to Kilometers</h2>
 
 <form method="get" asp-page-handler="@ConversionTypes.MilesToKilometers">

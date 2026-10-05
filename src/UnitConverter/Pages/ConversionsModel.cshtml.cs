@@ -52,14 +52,14 @@ public class ConversionsModel : PageModel
 
         double? unit = Conversion.ConversionType switch
         {
-            "MilesToKilometers" => new UnitOf.Length().FromMiles(conversion).ToKilometers(),
-            "KilometersToMiles" => new UnitOf.Length().FromKilometers(conversion).ToMiles(),
-            "FahrenheitToCelsius" => new UnitOf.Temperature().FromFahrenheit(conversion).ToCelsius(),
-            "CelsiusToFahrenheit" => new UnitOf.Temperature().FromCelsius(conversion).ToFahrenheit(),
-            "PoundsToKilograms" => new UnitOf.Mass().FromPounds(conversion).ToKilograms(),
-            "KilogramsToPounds" => new UnitOf.Mass().FromKilograms(conversion).ToPounds(),
-            "FeetToMeters" => new UnitOf.Length().FromFeet(conversion).ToMeters(),
-            "MetersToFeet" => new UnitOf.Length().FromMeters(conversion).ToFeet(),
+            ConversionTypes.MilesToKilometers => new UnitOf.Length().FromMiles(conversion).ToKilometers(),
+            ConversionTypes.KilometersToMiles => new UnitOf.Length().FromKilometers(conversion).ToMiles(),
+            ConversionTypes.FahrenheitToCelsius => new UnitOf.Temperature().FromFahrenheit(conversion).ToCelsius(),
+            ConversionTypes.CelsiusToFahrenheit => new UnitOf.Temperature().FromCelsius(conversion).ToFahrenheit(),
+            ConversionTypes.PoundsToKilograms => new UnitOf.Mass().FromPounds(conversion).ToKilograms(),
+            ConversionTypes.KilogramsToPounds => new UnitOf.Mass().FromKilograms(conversion).ToPounds(),
+            ConversionTypes.FeetToMeters => new UnitOf.Length().FromFeet(conversion).ToMeters(),
+            ConversionTypes.MetersToFeet => new UnitOf.Length().FromMeters(conversion).ToFeet(),
             _ => null
         };
 
@@ -95,3 +95,4 @@ public class ConversionsModel : PageModel
         set => Conversion.Output = value;
     }
 }
+
