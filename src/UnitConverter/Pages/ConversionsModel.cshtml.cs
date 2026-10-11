@@ -1,11 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using UnitConverter.Models;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace UnitConverter.Pages;
 
 public class ConversionsModel : PageModel
 {
+    private readonly ILogger<ConversionsModel> _logger;
+
+    public ConversionsModel() : this(NullLogger<ConversionsModel>.Instance)
+    {
+    }
+
+    [ActivatorUtilitiesConstructor]
+    public ConversionsModel(ILogger<ConversionsModel> logger)
+    {
+        _logger = logger;
+    }
     public void OnGet()
     {
         if (string.IsNullOrWhiteSpace(Conversion.Input))
@@ -41,16 +54,26 @@ public class ConversionsModel : PageModel
         }
         catch (FormatException)
         {
+            _logger.LogWarning("Invalid conversion input {Input} for {ConversionType}",
+                Conversion.Input, Conversion.ConversionType);
+
             ViewData["ErrorMessage"] = "Input must be a valid number.";
             return;
         }
         catch (OverflowException)
         {
+            _logger.LogWarning("Invalid conversion input {Input} for {ConversionType}",
+                Conversion.Input, Conversion.ConversionType);
+
             ViewData["ErrorMessage"] = "Input must be a valid number.";
             return;
         }
 
-        double? unit = Conversion.ConversionType switch
+        double? unit;
+
+        try
+        {
+            unit = Conversion.ConversionType switch
         {
             ConversionTypes.MilesToKilometers => new UnitOf.Length().FromMiles(conversion).ToKilometers(),
             ConversionTypes.KilometersToMiles => new UnitOf.Length().FromKilometers(conversion).ToMiles(),
@@ -62,14 +85,33 @@ public class ConversionsModel : PageModel
             ConversionTypes.MetersToFeet => new UnitOf.Length().FromMeters(conversion).ToFeet(),
             _ => null
         };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex,
+                "Conversion failed for {ConversionType} with input {Input}",
+                Conversion.ConversionType, Conversion.Input);
+
+            ViewData["ErrorMessage"] = "Conversion failed.";
+            return;
+        }
 
         if (unit == null)
         {
+            _logger.LogWarning("Unknown conversion type {ConversionType}",
+                Conversion.ConversionType);
+
             ViewData["ErrorMessage"] = "Unknown conversion type.";
             return;
         }
 
         Conversion.Output = unit.Value.ToString();
+
+        _logger.LogInformation(
+            "Converted {Input} using {ConversionType} with result {Result}",
+            conversion,
+            Conversion.ConversionType,
+            unit.Value);
     }
 
     [BindProperty(SupportsGet = true)]
